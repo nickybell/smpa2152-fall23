@@ -1,0 +1,374 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{ltablex} %tables on multiple pages
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks,allcolors=Blue]{hyperref}
+\usepackage[rm,light]{roboto}
+\usepackage[T1]{fontenc}
+\usepackage{soul}
+\usepackage{ulem}
+\usepackage{marvosym}
+\usepackage{etaremune}
+\usepackage{makecell}
+
+\frenchspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+\titlespacing{\subsection}{0pt}{0em}{0em}
+
+\begin{document}
+
+\begin{center}
+\large
+\textbf{Syllabus\\
+\bigskip
+SMPA 2152: Data Analysis for Journalism and Political Communication (Fall 2023)}
+\end{center}
+
+\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}X}
+Meeting Times: & Mondays and Wednesdays, 5:45-7:00pm \\
+\\
+Classroom: & MPA B01 \\
+\\
+Professor: & Nicholas Bell, Ph.D. (he/him/his) \\
+& \href{mailto:nicholasbell@gwu.edu}{nicholasbell@gwu.edu} \\
+\\
+Office Hours (on Zoom): & Wednesdays 8:00-9:00pm and by appointment \newline
+(Zoom link for office hours: \href{https://gwu-edu.zoom.us/j/4852885019}{https://gwu-edu.zoom.us/j/4852885019})\\
+\\
+& I prefer to meet during office hours or by appointment. However, I am available by email, and I try to respond to emails by the end of the next business day (M-F).\\
+\\
+\hline
+\end{tabularx}
+
+\subsection*{Course Description}
+
+Data has been democratized. More data is available to the ordinary person than ever before, and leaders in every industry -- including journalism and political communication -- are seeking to take advantage of data to advance their missions. However, most of us lack the data literacy skills to make good use of these resources, and this can lead to the misapplication and misuse of data. To fully leverage the promise of big data, we must become familiar with the basic challenges inherent in data analysis and how to overcome them. This course is an introduction to the principles and practices of data analysis. The goal is for students to become responsible consumers and producers of data. Students will learn how to critically evaluate claims derived from data. Students will also learn how to ethically present data in compelling and persuasive ways to non-expert audiences. This class includes a special discussion of political polling, which is widely used in journalism and political communication but has come under increasing scrutiny in recent years. Students require only a basic aptitude in numeracy (e.g. percentages and averages) for this course. \par
+
+In addition to developing data literacy, students will be introduced to the \textit{R} programming language. There are many advantages to learning \textit{R}: it is free and open-source, meaning that developers are continually releasing new tools to make coding easier; it is widely used by news organizations and researchers around the world; and \textit{R} is one of the most powerful programming languages for statistical analysis. Students will learn data literacy by applying the same tools and techniques used by professional data scientists.
+
+\subsection*{Learning Objectives}
+
+\begin{enumerate}
+    \item You will be able to assess the pragmatic and ethical issues in collecting, manipulating, and analyzing data, known as ``data literacy.''
+    \item You will be able to obtain publicly-available data and perform basic manipulations on that data using the programming language \textit{R}.
+    \item You will be able to visualize and present data in accurate and persuasive ways.
+    \item You will be familiar with the statistical concepts of sampling, uncertainty, hypothesis testing, and linear regression and how to conduct basic statistical analyses in \textit{R}.
+\end{enumerate}
+\vspace{-.5em}
+
+\subsection*{Course Materials}
+
+Students are required to purchase a \href{https://posit.cloud/}{Posit Cloud} student access plan for the duration of the course. Posit Cloud is a web-based version of the popular R development environment RStudio. Even if you are familiar with the desktop version of RStudio, you will need to purchase a Posit Cloud membership. All of the code we work on during this class will be available on Posit Cloud. At the time of this writing, a membership costs \$5 per month. If the course materials pose a financial burden, please contact me and we will work something out.
+
+\subsection*{Assignments}
+
+There will be five assignments in this course that will ask you to apply the R skills we learn in class to typical issues we encounter when working with data. You may complete these assignments on your own or in collaboration with other students. If you work with other students, please indicate their names at the top of your submission. You should expect to spend 3-4 hours on each assignment. \par
+
+Assignments are due by 11:59pm Eastern of the following Tuesday. This means that you have 6 days to complete each assignment. Late assignments will be deducted 50\%, and no assignments will be accepted after the start of class on Wednesday. We will review the solutions to the assignment at the start of our class meeting on Wednesday. \par
+
+\subsection*{Mid-term and Final Exams}
+
+The mid-term exam is scheduled for October 25 and it is an in-class exam. The mid-term exam will cover material from both the data analysis and coding tracks through October 18.  \par
+
+The final exam will take place during the final exam period. The final exam will cover material from the data analysis track beginning October 23, but will include material from the coding track from the entire course. This is because the skills we learn in the first half of the course are the ``building blocks'' for the skills we will learn in the second half of the course, so it is not possible to separate them.
+
+\subsection*{Attendance}
+
+Attendance is mandatory. If you miss a class due to illness, family emergencies, University-scheduled events, and other unusual circumstances, you must email me and let me know. You do not need to provide proof of your reason for missing class, but misrepresentation of your reason for excusal is a violation of the \href{https://studentconduct.gwu.edu/code-student-conduct}{Code of Student Conduct}. \par
+
+Your attendance grade is the percentage of class meetings with an unexcused absence deducted from 100 (rounded up). For example, if you have two unexcused absences, your attendance grade is $100-((2/24)*100) = 92$. \par
+
+\textbf{University Policy on Observance of Religious Holidays} \par
+
+Students must notify faculty during the first week of the semester in which they are enrolled in the course, or as early as possible, but no later than three weeks prior to the absence, of their intention to be absent from class on their day(s) of religious observance. If the holiday falls within the first three weeks of class, the student must inform faculty in the first week of the semester. For details and policy, see ``Religious Holidays'' at \href{https://provost.gwu.edu/policies-procedures-and-guidelines}{provost.gwu.edu/policies-procedures-and-guidelines}.
+
+\subsection*{Grading}
+
+Your course grade is calculated as your grade on each of the following course components weighted by:
+
+\begin{tabular}{l|l}
+Assignments & 25\% \\
+\hline
+Mid-term exam & 25\% \\
+\hline
+Final exam & 40\% \\
+\hline
+Attendance & 10\%
+\end{tabular}
+
+Course grades are converted into letter grades according to the following rubric:\\
+\\
+93-100 = A (4.0 GPA points)\\
+90-92 = A- (3.7 GPA points)\\
+87-89 = B+ (3.3 GPA points)\\
+83-86 = B (3.0 GPA points)\\
+80-82 = B- (2.7 GPA points)\\
+77-79 = C+ (2.3 GPA points)\\
+73-76 = C (2.0 GPA points)\\
+70-72 = C- (1.7 GPA points)\\
+67-69 = D+ (1.3 GPA points)\\
+63-66 = D (1.0 GPA points) \\
+60-62 = D- (0.7 GPA points)
+
+\subsection*{Support for Students with Disabilities}
+
+Any student who may need an accommodation based on the impact of a disability should contact the Office of Disability Support Services (DSS) to inquire about the documentation necessary to establish eligibility and to coordinate a plan of reasonable and appropriate accommodations. DSS is located in Rome Hall, Suite 102. For additional information, please call DSS at 202-994-8250, or consult \href{https://disabilitysupport.gwu.edu/}{disabilitysupport.gwu.edu/}.
+
+\subsection*{Academic Integrity}
+
+Academic integrity is an essential part of the educational process, and all members of the GW community take these matters very seriously. As the instructor for this course, my role is to provide clear expectations and uphold them in all assessments. Violations of academic integrity occur when students fail to cite research sources properly, engage in unauthorized collaboration, falsify data, and otherwise violate the Code of Academic Integrity. If you have any questions about whether or not particular academic practices or resources are permitted, you should ask me for clarification. If you are reported for an academic integrity violation, you should contact the Office of Student Rights and Responsibilities (SRR) to learn more about your rights and options in the process. Consequences can range from failure of assignment to expulsion from the university and may include a transcript notation. For more information, please refer to the \href{https://studentconduct.gwu.edu/academic-integrity}{SSR website}, email \href{mailto:rights@gwu.edu}{rights@gwu.edu}, or call 202-994-6757. 
+
+\subsection*{Class Recordings and Use of Electronic Course Materials}
+
+Class meetings will be audio/video recorded and made available to other students in this course. As part of your participation in this course, you may be recorded. If you do not wish to be recorded, please contact me during the first week of class to discuss alternative arrangements. \par
+
+Students are encouraged to use electronic course materials, including recorded class sessions, for private personal use in connection with their academic program of study. Electronic course materials and recorded class sessions should not be shared or used for non-course related purposes unless express permission has been granted by the instructor. Students who impermissibly share any electronic course materials are subject to discipline under the Student Code of Conduct. Please contact the instructor if you have questions regarding what constitutes permissible or impermissible use of electronic course materials and/or recorded class sessions.
+
+\subsection*{Additional Resources for Students}
+
+\begin{itemize}
+    \item \textbf{Counseling and Psychological Services} \\
+    202-994-5300 \\
+    GW’s Colonial Health Center offers counseling and psychological services, supporting mental health and personal development by collaborating directly with students to overcome challenges and difficulties that may interfere with academic, emotional, and personal success. \href{https://healthcenter.gwu.edu/counseling-and-psychological-services}{healthcenter.gwu.edu/counseling-and-psychological-services}
+    \item \textbf{Writing Center} \\
+    GW’s Writing Center cultivates confident writers in the University community by facilitating collaborative, critical, and inclusive conversations at all stages of the writing process. Working alongside peer mentors, writers develop strategies to write independently in academic and public settings. Appointments can be booked online at \href{https://gwu.mywconline.com}{gwu.mywconline.com}.
+    \item \textbf{Statistical Consulting} \\
+    Academic Commons provides GW students with access to statistical consulting (including in \textit{R}) through Penji. Students can connect with a statistical consultant at \href{https://academiccommons.gwu.edu/statistical-consulting}{academiccommons.gwu.edu/statistical-consulting}.
+\end{itemize}
+\vspace{-.5em}
+
+\subsection*{Safety and Security}
+
+\begin{itemize}
+    \item Monitor \href{https://safety.gwu.edu/gw-alert-instructions}{GW Alerts} and \href{https://campusadvisories.gwu.edu/}{Campus Advisories} to \href{https://safety.gwu.edu/stay-informed}{Stay Informed} before and during an emergency event or situation
+    \item In an emergency: call GWPD/EMeRG at 202-994-6111 or 911
+    \item For situation-specific actions: refer to GW's \href{https://safety.gwu.edu/emergency-response-handbook}{Emergency Response Handbook} and \href{https://safety.gwu.edu/sites/g/files/zaxdzs2386/f/downloads/GWEOP_August_2018_FINAL_0.pdf}{Emergency Operations Plan}
+    \item In the event of an armed intruder: \textbf{Run. Hide. Fight.}
+\end{itemize}
+\vspace{-.5em}
+
+\subsection*{Course Outline}
+
+This course consists of two parallel tracks, a Data Analysis track that will be taught on Mondays and a Coding track that will be taught on Wednesdays. The Data Analysis track will introduce you to key principles of data analysis and core concepts in statistics. The coding track will teach you how to conduct data analyses using the statistical programming language R.
+
+The readings assigned for each class should be completed by the following meeting of that track, e.g., the readings assigned in the Data Analysis track on August 28 are to be completed by September 11, while the readings assigned in the Coding track on August 30 are to be completed by September 6. Readings with an embedded link can be accessed online. All other readings are available on Blackboard. References to Ismay \& Kim refer to \emph{Statistical Inference via Data Science: A ModernDive into R and the Tidyverse} by Chester Ismay and Albert Y. Kim, an open-source online textbook that is available at \href{https://www.moderndive.com}{https://www.moderndive.com}.
+
+\begin{tabularx}{\textwidth}{|p{.06\textwidth}|p{.45\textwidth}||p{.45\textwidth}|}
+\hline
+\textbf{Week} & \textbf{Data Analysis Track (Mondays)} & \textbf{Coding Track (Wednesdays)} \\
+
+%%% WEEK 1 %%%
+
+\hline
+\multirow{10}{*}{1} &
+
+August 28: Introduction \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/preface.html#introduction-for-students}{Preface: Introduction for Students} \newline
+$\bullet$ Excerpt of Berinato (2016), \emph{Good Charts} (on Blackboard) \newline
+$\bullet$ Fry (2021), ``When Graphs Are a Matter of Life and Death'' (The New Yorker) (on Blackboard) &
+
+August 30: Introduction \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/1-getting-started.html}{Ch. 1: Getting Started with Data in R} \\
+
+%%% WEEK 2 %%%
+
+\hline
+\multirow{6}{*}{2} &
+
+September 4: No Class (Labor Day) &
+
+September 6: Base R \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/2-viz.html}{Ch. 2: Data Visualization} \newline
+$\bullet$ \hl{Assignment \#1 (due September 12)} \\
+
+%%% WEEK 3 %%%
+
+\hline
+\multirow{10}{*}{3} &
+
+September 11: Data Visualization \newline \newline
+\ul{Homework} \newline
+$\bullet$ Retro Report (2021), \href{https://www.retroreport.org/video/research-challenges-idea-that-lower-bmi-is-always-better/}{``What's in a Number?} (video) \newline
+$\bullet$ Reinhart (2015), \emph{Statistics Done Wrong}, Ch. 9: ``Researcher Freedom: Good Vibrations?'' (on Blackboard) \newline
+$\bullet$ Aschwanden (2015), \href{https://fivethirtyeight.com/features/science-isnt-broken/}{``Science Isn't Broken''} (FiveThirtyEight) &
+
+September 13: Data Visualization I \newline \newline
+\ul{Homework} \newline
+$\bullet$ No homework \\
+
+%%% WEEK 4 %%%
+
+\hline
+\multirow{5}{*}{4} &
+
+September 18: No Class (professor at conference) &
+
+September 20: Data Visualization II \newline \newline
+\ul{Homework} \newline
+$\bullet$ Wickham, Çetinkaya-Rundel, and Grolemund, \emph{R for Data Science, 2nd ed.}, \href{https://r4ds.hadley.nz/quarto}{Ch. 29: Quarto} \\
+
+%%% WEEK 5 %%%
+
+\hline
+\multirow{6}{*}{5} &
+
+September 25: No Class (Yom Kippur) &
+
+September 27: Quarto \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/3-wrangling.html}{Ch. 3: Data Wrangling} 
+$\bullet$ \hl{Assignment \#2 due October 3}\\
+
+%%% WEEK 6 %%%
+
+\hline
+\multirow{6}{*}{6} &
+
+October 2: Researcher Choices and Bias \newline \newline
+\ul{Homework} \newline
+$\bullet$ Bergstrom \& West (2020), \emph{Calling Bullshit}, Ch. 4: ``Causality'' (on Blackboard) &
+
+October 4: Data Wrangling I \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/4-tidy.html}{Ch. 4: Data Importing and Tidy Data} \\
+
+%%% WEEK 7 %%%
+
+\hline
+\multirow{6}{*}{7} &
+
+October 9: Correlation vs. Causation \newline \newline
+\ul{Homework} \newline
+$\bullet$ O'Neil (2017)  \href{https://www.ted.com/talks/cathy_o_neil_the_era_of_blind_faith_in_big_data_must_end}{``The era of blind faith in big data must end''} (video) \newline
+$\bullet$ Diakopolous (2016), \href{https://www.cjr.org/tow_center/transparency_algorithms_buzzfeed.php}{``BuzzFeed's pro tennis investigation displays ethical dilemmas of data journalism''} (Columbia Journalism Review) \newline
+$\bullet$ Bouie (2021), \href{https://www.nytimes.com/2022/01/28/opinion/slavery-voyages-data-sets.html?unlocked_article_code=AAAAAAAAAAAAAAAACEIPuomT1JKd6J17Vw1cRCfTTMQmqxCdw_PIxftm3iWka3DMDmwSiOMNAo6B_EGKfq5qedYpznGFQ85IP7I0AfB70uYaJEFxUE-ovp6A0twjEhkClLiSDCkwzo6fGvcx6yPrZW20b7wunbDk5hmPdWXsUfbA1SZwLBI2pJRlaVz62nUClvzHErUm08Jsnqt0XuAMTjkKYCWOt_foGk8-bI3ANkeAn1FwD-JJWjjTnsqe66YBcWhRD1HGRHB95gUs-Y8WeYNXbOukcUlWKIepiq4RC2doMI6oG5QyIoDRnL5hurfJwgeeak8qYELPltMIK9ta2EiT_g\&smid=url-share}{``Quantifying the Pain of Slavery''} (New York Times) &
+
+October 11: Data Wrangling II \newline \newline
+\ul{Homework} \newline
+$\bullet$ Wickham, Çetinkaya-Rundel, and Grolemund, \emph{R for Data Science, 2nd ed.}, \href{https://r4ds.hadley.nz/}{Chs. 15, 17, \& 18: Strings, Factors, and Dates and times} \newline
+$\bullet$ \hl{Assignment \#3 (due October 17)} \\
+
+%%% WEEK 8 %%%
+
+\hline
+\multirow{6}{*}{8} &
+
+October 16: Data Ethics \& Responsibilities \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/7-sampling.html}{Ch. 7: Sampling} &
+
+October 18: Data Wrangling III \newline \newline
+\ul{Homework} \newline
+No homework
+
+%%% WEEK 9 %%%
+
+\hline
+\multirow{6}{*}{9} &
+
+October 23: Sampling \newline \newline
+\ul{Homework} \newline
+$\bullet$ Excerpt of Morris (2022), \emph{Strength in Numbers} (on Blackboard) \newline
+$\bullet$ Keeter, Kennedy, and Deane (2020), \href{https://www.pewresearch.org/fact-tank/2020/11/13/understanding-how-2020s-election-polls-performed-and-what-it-might-mean-for-other-kinds-of-survey-work/}{``Understanding how 2020 election polls performed and what it might mean for other kinds of survey work''} (Pew Research Center) &
+
+\hl{October 25: Mid-term exam} \newline \newline
+\ul{Homework} \newline
+No homework \\
+
+%%% WEEK 10 %%%
+
+\hline
+\multirow{6}{*}{10} &
+
+October 30: Political Polling \newline \newline
+\ul{Homework} \newline
+No homework &
+
+November 1: Analyzing Polls in R \newline \newline
+\ul{Homework} \newline
+$\bullet$ \hl{Assignment \#4 (due November 7)}\\
+
+%%% WEEK 11 %%%
+
+\hline
+\multirow{6}{*}{11} &
+
+November 6: Guest Speaker: Emily Guskin, Polling Analyst at The Washington Post \newline \newline
+\ul{Homework} \newline
+No homework &
+
+November 8: Election Results in R \newline \newline
+\ul{Homework} \newline
+No homework\\
+
+%%% WEEK 12 %%%
+
+\hline
+\multirow{6}{*}{12} &
+
+November 13: Machine Learning/AI \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/9-hypothesis-testing.html}{Ch. 9: Hypothesis Testing} &
+
+November 15: No Class (professor away) \\
+
+%%% WEEK 13 %%%
+
+\hline
+\multirow{6}{*}{13} &
+
+November 27: Hypothesis testing \newline \newline
+\ul{Homework} \newline
+$\bullet$ Excerpt of Gonick \& Smith (1993), \emph{The Cartoon Guide to Statistics} (on Blackboard) &
+
+
+November 29: Hypothesis testing \newline \newline
+\ul{Homework} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/5-regression.html}{Ch. 5: Basic Regression} \newline
+$\bullet$ Ismay \& Kim, \href{https://moderndive.com/6-multiple-regression.html}{Ch. 6: Multiple Regression} \\
+
+%%% WEEK 14 %%%
+
+\hline
+\multirow{6}{*}{14} &
+
+December 4: Regression \newline \newline
+\ul{Homework} \newline
+No homework &
+
+December 6: Regression \newline \newline
+\ul{Homework} \newline
+$\bullet$ \hl{Assignment \#5 (due December 10)} \\
+
+%%% WEEK 15 %%%
+
+\hline
+\multirow{1}{*}{15} &
+
+December 11: Review session &
+\\
+
+\hline
+\multicolumn{3}{|p{\hsize}|}{\textbf{Final exam date TBA}} 
+\\
+
+\hline
+
+\end{tabularx}
+
+\centering
+Version: 2\\
+Last Updated: August 16, 2023\\
+Subject to change.
+
+\end{document}
