@@ -47,3 +47,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Rendered pdf files of assignments
+assignments/**/*.pdf

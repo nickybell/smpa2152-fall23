@@ -1,0 +1,64 @@
+---
+output: 
+    stevetemplates::statement:
+    latex_engine: pdflatex
+geometry: margin=1in
+
+title: "Assignment #1 - Base R"
+author: Prof. Bell
+email: Fall 2023
+
+fontfamily: cochineal
+fontsize: 11pt
+---
+
+```{r setup, include = F}
+knitr::opts_chunk$set(echo = F, include = F)
+```
+
+1. Install the `palmerpenguins` package and load the `penguins` data frame. Use `glimpse()` to show a summary of the `penguins` data.
+
+```{r, message = F}
+# Not run
+# install.packages("palmerpenguins")
+library(tidyverse)
+library(palmerpenguins)
+data(penguins)
+glimpse(penguins)
+```
+
+2. What class of vector is the `sex` column in `penguins`?
+
+```{r}
+class(penguins$sex)
+```
+
+2. What is the mean flipper length of the penguins in this data?
+
+```{r}
+mean(penguins$flipper_length_mm, na.rm = T)
+```
+
+3. Generate a table that shows the number of penguins of each species that were studied on each island (i.e., a table with two dimensions: species and island). Which islands are home to more than one species of penguin?
+
+```{r}
+table(penguins$species, penguins$island)
+```
+
+4. Find the mean bill length of penguins that come from the islands you identified above (that are home to more than one species). Compare that to the mean body mass of the penguins on other islands using a `!` (negate) operator. Which value is larger?
+
+```{r}
+mean(penguins$bill_length_mm[penguins$island %in% c("Biscoe", "Dream")], na.rm = T)
+mean(penguins$bill_length_mm[!(penguins$island %in% c("Biscoe", "Dream"))], na.rm = T)
+```
+
+5. Create a new column for whether a penguin is large, meaning it has a body mass greater than or equal to 5000 grams. How many penguins are large? What percentage of penguins are large?
+
+```{r}
+penguins$large <- ifelse(penguins$body_mass_g >= 5000, 1, 0)
+table(penguins$large)
+
+prop.table(table(penguins$large))
+# or
+mean(penguins$large, na.rm = TRUE)
+```
