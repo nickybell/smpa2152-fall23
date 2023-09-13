@@ -33,26 +33,26 @@ glimpse(penguins)
 class(penguins$sex)
 ```
 
-2. What is the mean flipper length of the penguins in this data?
+3. What is the mean flipper length of the penguins in this data?
 
 ```{r}
 mean(penguins$flipper_length_mm, na.rm = T)
 ```
 
-3. Generate a table that shows the number of penguins of each species that were studied on each island (i.e., a table with two dimensions: species and island). Which islands are home to more than one species of penguin?
+4. Generate a table that shows the number of penguins of each species that were studied on each island (i.e., a table with two dimensions: species and island). Which islands are home to more than one species of penguin?
 
 ```{r}
 table(penguins$species, penguins$island)
 ```
 
-4. Find the mean bill length of penguins that come from the islands you identified above (that are home to more than one species). Compare that to the mean body mass of the penguins on other islands using a `!` (negate) operator. Which value is larger?
+5. Find the mean bill length of penguins that come from the islands you identified above (that are home to more than one species). Compare that to the mean bill length of the penguins on other islands using a `!` (negate) operator. Which value is larger?
 
 ```{r}
 mean(penguins$bill_length_mm[penguins$island %in% c("Biscoe", "Dream")], na.rm = T)
 mean(penguins$bill_length_mm[!(penguins$island %in% c("Biscoe", "Dream"))], na.rm = T)
 ```
 
-5. Create a new column for whether a penguin is large, meaning it has a body mass greater than or equal to 5000 grams. How many penguins are large? What percentage of penguins are large?
+6. Create a new column for whether a penguin is large, meaning it has a body mass greater than or equal to 5000 grams. How many penguins are large? What percentage of penguins are large?
 
 ```{r}
 penguins$large <- ifelse(penguins$body_mass_g >= 5000, 1, 0)
