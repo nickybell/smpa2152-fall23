@@ -253,6 +253,8 @@ class(example)
 # Try it yourself! --------------------------------------------------------
 
 # First, install the "nycflights13" package and load it using library()
+install.packages("nycflights13")
+library(nycflights13)
 
 # Then, run the following to load the "flights" data frame
 data(flights)
@@ -261,21 +263,22 @@ data(flights)
 ?flights
 
 # Explore the data frame using glimpse()
-
+glimpse(flights)
 
 # Now we want to find out how many flights were delayed by 30 minutes or more when departing JFK airport. First, subset the data frame to only those rows where the origin airport is "JFK"
-
+flights <- flights[flights$origin == "JFK",]
 
 # Now subset the data frame again, to only those rows where the departure delay is greater than or equal to 30.
-
+flights <- flights[flights$dep_delay >= 30,]
 
 # Use the nrow() function to get the number of rows in the resulting data frame (flights from JFK with departure delays of at least 30 minutes).
-
+nrow(flights)
 
 # Create a new column that represents the departure delay in hours rather than minutes (i.e., divide departure delay by 60).
-
+flights$dep_delay_hours <- flights$dep_delay/60
 
 # What is the average departure delay of these flights in hours? Hint: look at the help file for "mean". How can you ask this function to ignore the flights where the departure delay is NA (because the flight was cancelled)?
+mean(flights$dep_delay_hours, na.rm= TRUE)
     
 
 # More Base R Tips and Tricks ---------------------------------------------
