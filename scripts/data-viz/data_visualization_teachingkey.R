@@ -1,11 +1,7 @@
 # File Name: 	  	  Week2.R
 # File Purpose:  	  Data Visualization I
 # Author: 	    	  Nicholas Bell (nicholasbell@gwu.edu)
-# Date Created:     2023-02-05
-
-# Check and set the working directory for the local ("your") computer
-getwd()
-setwd("~/SMPA2152")
+# Date Created:     2023-09-16
 
 # Load packages (install them first if necessary)
 library(tidyverse)
@@ -39,10 +35,6 @@ ggplot(data = flights) +
   geom_vline(xintercept = 0) +
   facet_wrap(~ carrier) +
   theme_bw()
-  
-# There is so much more to explore in ggplot2. A couple of resources I recommend:
-	# The cheatsheet that comes with RStudio
-	# The R Graphics Cookbook: https://r-graphics.org/
 
 # Okay, let's get started. When you are making a graph, the first thing to think about is the type of data you are working with: discrete or continuous.
 	# Discrete variables do not exist on the number line; they are categories
@@ -54,6 +46,24 @@ ggplot(data = flights) +
   head(flights$month_categories)
   
 # The second thing to think about is how many variables you are graphing: univariate (one variable) or multivariate (2+ variables)?
+  
+ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = -.5) +
+  geom_vline(xintercept = .5) +
+  labs(y = "Number of Variables",
+       x = "Type of Variables") +
+  scale_x_continuous(limits = c(-1.5, 1.5), labels = c("Discrete", "Continuous", "Combination"), breaks = c(-1, 0, 1), expand = c(0,0)) +
+  scale_y_continuous(limits = c(-1, 1), labels = c("Multivariate", "Univariate"), breaks = c(-.5, .5), expand = c(0,0)) +
+  annotate("text", x = -1, y = .5, label = "Bar graph") +
+  annotate("text", x = 0, y = .5, label = "Histogram") +
+  annotate("text", x = -1, y = -.5, label = "Box and whiskers plot\ntest") +
+  geom_rect(aes(xmin = .5, xmax = 1.5, ymin = 0, ymax = 1), fill = "gray") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(angle = 90, hjust = .5),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank())
+  
   
 # Today we will be using the "penguins" data from the {palmerpenguins} package that you are also using for your homework.
   
