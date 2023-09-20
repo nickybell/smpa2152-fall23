@@ -5,7 +5,6 @@
 
 # Load packages (install them first if necessary)
 library(tidyverse)
-library(nycflights13)
 library(palmerpenguins)
 # The package {nbmisc} is not publicly available, but you can download the development version if necessary using the command: remotes::install_github("nickybell/nbmisc")
 library(nbmisc)
@@ -25,18 +24,6 @@ library(nbmisc)
 	# labs() function: for adding data labels and titles
   # theme() functions: these change the visual appearance of your graph that have nothing to do with the data itself, such as font size, legend position, etc.
   # facets: for displaying different sets of data (e.g. Democrats and Republicans) as two separate graphs side-by-side
-
-# An example:
-data(flights)
-flights <- flights[flights$carrier %in% c("AA", "DL", "UA"),] # major airlines only
-ggplot(data = flights) +
-  geom_point(mapping = aes(x = dep_delay, y = arr_delay, color = origin)) +
-  scale_x_continuous(limits = c(-90, 90)) +
-  scale_y_continuous(limits = c(-90, 90)) +
-  geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) +
-  facet_wrap(~ carrier) +
-  theme_bw()
 
 # Okay, let's get started. When you are making a graph, the first thing to think about is the type of data you are working with: discrete or continuous.
 	# Discrete variables do not exist on the number line; they are categories
@@ -62,7 +49,7 @@ types_of_graphs() # this comes from the {nbmisc} package
 ggplot(data = penguins) +
 	geom_bar(mapping = aes(x = species))
   
-  # You can also pass in the count directly (e.g., what if you have a vector of means?)
+  # You can also pass in the values directly (e.g., what if you have a vector of means?)
   table(penguins$species)
   peng2 <- data.frame(species = c("Adelie", "Chinstrap", "Gentoo"),
                       mean_body_mass_g = c(3701, 3733, 5076))
@@ -106,16 +93,16 @@ penguins |>
 
 ggplot(data = penguins) +
 	geom_bar(aes(x = island, fill = species), position = "dodge") +
-	scale_fill_discrete(type = c("aquamarine", "seagreen", "salmon"))
+	scale_fill_discrete(type = c("aquamarine", "seagreen", "salmon")) +
+  theme_bw()
 
 colors()
 
-# 2D heat map (more complicated)
+# Try it yourself! -----------------------------------------------------
 
-ggplot(data = penguins) +
-  geom_bin_2d(aes(x = island, y = species)) +
-  theme_bw() +
-  theme(panel.grid = element_blank())
+# Change the colors in the graph we just created.
+
+
 
 # 1 discrete variable, 1 continuous variable
 
@@ -141,6 +128,12 @@ ggplot(data = penguins[!is.na(penguins$sex),]) +
        title = "Penguin Bill Length by Sex",
        caption = "Source: palmerpenguins package")
 
+# Try it yourself! -----------------------------------------------------
+
+# Add built-in themes to the box and whisker plot and the violin plot we just made.
+
+
+
 # 2 continuous variables
 
 # Scatterplot
@@ -163,46 +156,53 @@ peng3 <-
 ggplot(data = peng3, mapping = aes(x = year, y = mean_bill_length_mm)) +
   geom_line() +
   geom_point() +
+  scale_x_continuous(breaks = c(2007:2009)) +
   scale_y_continuous(limits = c(0, NA))
 
 
 # Multivariate Graphs -----------------------------------------------------
 
 # Let's make the same line graph, but this time, we are going to separate the data by the sex.
+peng4 <- 
+  penguins |> 
+  group_by(year, sex) |> 
+  summarize(mean_bill_length_mm = mean(bill_length_mm, na.rm = T))
 
-ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g/1000, color = species)) +
-	geom_point() +
-	scale_y_continuous(limits = c(0, NA)) +
-	geom_smooth(method = "lm") +
-	labs(x = "Flipper Length (mm)",
-			 y = "Body Mass (kg)",
-			 color = "Species",
-			 title = "Body Mass and Flipper Length Are Related") +
-	theme_minimal(base_size = 10) +
-	theme(legend.position = "bottom",
-				plot.title = element_text(hjust = .5)) +
-	facet_wrap(~ species, nrow = 1)
+# Add a new aesthetic mapping
 
+ggplot(data = peng4[!is.na(peng4$sex),], mapping = aes(x = year, y = mean_bill_length_mm, color = sex)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = c(2007:2009)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  scale_color_manual(values = c("olivedrab", "royalblue4"))
+
+# Use facets
+
+ggplot(data = peng4[!is.na(peng4$sex),], mapping = aes(x = year, y = mean_bill_length_mm)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = c(2007:2009)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  facet_wrap(~ sex)
 
 # Try it yourself! --------------------------------------------------------
 
-# Make a graph with 4 variables: How are bill length and bill depth related, for both sexes of penguins, on each island?
+# Using both an additional aesthetic mapping AND facets, make a graph with 4 variables: How are bill length and bill depth related, for both sexes of penguins, on each island?
 
-ggplot(data = penguins[!is.na(penguins$sex),], aes(x = bill_length_mm,
-																									 y = bill_depth_mm,
-																									 color = sex)) +
-	geom_point(alpha = .2) +
-	geom_smooth(method = "lm") +
-	scale_color_discrete(type = c("palegreen4", "steelblue4")) +
-	scale_y_continuous(limits = c(0, NA)) +
-	labs(x = "Bill Length (mm)",
-			 y = "Bill Depth (mm)",
-			 color = "Sex",
-			 title = "Bill Length and Bill Depth, by Sex and Species",
-			 caption = "Source: palmerpenguins package") +
-	theme_minimal() +
-	theme(legend.position = "bottom",
-				plot.title = element_text(hjust = .5)) +
-	facet_wrap(~ factor(species))
+ggplot(data = penguins[!is.na(penguins$sex),], aes(x = bill_length_mm, y = bill_depth_mm, color = sex)) +
+  geom_point(alpha = .2) +
+  geom_smooth(method = "lm") +
+  scale_color_discrete(type = c("palegreen4", "steelblue4")) +
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(x = "Bill Length (mm)",
+       y = "Bill Depth (mm)",
+       color = "Sex",
+       title = "Bill Length and Bill Depth, by Sex and Species",
+       caption = "Source: palmerpenguins package") +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = .5)) +
+  facet_wrap(~ factor(species))
 
 # How do I save a graph?
