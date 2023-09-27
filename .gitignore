@@ -50,3 +50,7 @@ rsconnect/
 
 # Rendered pdf files of assignments
 assignments/**/*.pdf
+
+# Rendered Quarto files
+scripts/**/*.pdf
+scripts/**/*.html
