@@ -1,5 +1,5 @@
-# File Name: 	  	  Week2.R
-# File Purpose:  	  Data Visualization I
+# File Name: 	  	  data_visualization_teachingkey.R
+# File Purpose:  	  Data Visualization
 # Author: 	    	  Nicholas Bell (nicholasbell@gwu.edu)
 # Date Created:     2023-09-16
 
@@ -130,7 +130,7 @@ ggplot(data = penguins[!is.na(penguins$sex),]) +
 
 # Try it yourself! -----------------------------------------------------
 
-# Add built-in themes to the box and whisker plot and the violin plot we just made.
+# Add built-in themes to the box and whisker plot and the violin plot we just made. (Hint: try ?ggtheme in your console)
 
 
 
