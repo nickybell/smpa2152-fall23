@@ -54,4 +54,3 @@ assignments/**/*.pdf
 # Rendered Quarto files
 scripts/**/*.pdf
 scripts/**/*.html
-**/*_files/
