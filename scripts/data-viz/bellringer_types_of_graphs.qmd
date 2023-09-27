@@ -3,7 +3,9 @@ title: "Data Visualization Bellringer"
 author: "Prof. Bell"
 date: 2023-09-26
 format: html
-# format: gfm
+# format:
+#   gfm:
+#     output-file: bellringer_types_of_graphs-gfm
 execute:
   echo: false
 editor_options: 
