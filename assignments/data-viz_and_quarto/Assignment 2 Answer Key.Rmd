@@ -1,0 +1,111 @@
+---
+output: 
+    stevetemplates::statement:
+    latex_engine: pdflatex
+geometry: margin=1in
+graphics: yes
+
+title: "Assignment #2"
+author: Prof. Bell
+email: Spring 2023
+
+fontfamily: cochineal
+fontsize: 11pt
+---
+
+```{r setup, include = F}
+knitr::opts_chunk$set(echo = T, include = T, fig.height = 4, fig.width = 6, fig.align = "center")
+```
+
+Install the `moderndive` package and load the `house_prices` data. For this homework, please produce a nicely-formatted graph that helps answer each of the following questions. Put your graphs in a Word document (or other word processing software) and **include a brief (1-2 sentence) answer to the question.**
+
+```{r, message = F}
+# Not run
+# install.packages("moderndive")
+library(tidyverse)
+library(moderndive)
+data(house_prices)
+```
+
+1. Create a new variable for the month that a home was sold using this command: `house_prices$month <- lubridate::month(house_prices$date, label = T)`. What is the most popular month for home sales?
+
+```{r}
+house_prices$month <- lubridate::month(house_prices$date, label = T)
+
+ggplot(data = house_prices) +
+	geom_bar(aes(x = month)) +
+	labs(x = "Month",
+			 y = "Number of Homes Sold",
+			 title = "Number of Homes Sold Per Month",
+			 caption = "Source: moderndive package") +
+	theme_minimal() +
+	theme(plot.title = element_text(hjust = .5))
+```
+
+2. In 1900, the population of King County was 110,053; in 2020, it was 2.3 million. Using home construction as an indicator of population growth, in what decade did the population of King County start to grow dramatically?
+
+```{r}
+ggplot(data = house_prices) +
+	geom_histogram(aes(x = yr_built), color = "white", binwidth = 10) +
+	labs(x = "Decade",
+			 y = "Number of Homes Sold",
+			 title = "Number of Homes Sold Per Decade",
+		   caption = "Source: moderndive package") +
+	theme_minimal() +
+	theme(plot.title = element_text(hjust = .5))
+```
+
+3. Do homes built after 1990 tend to have more bathrooms per bedroom than homes built before 1990? (Hint: You will need to use a logical statement when constructing your graph.)
+
+```{r}
+ggplot(data = house_prices, aes(x = bedrooms, y = bathrooms, color = yr_built > 1990)) +
+	geom_point(alpha = .5) +
+	geom_smooth(method = "lm") +
+	labs(x = "Bedrooms",
+			 y = "Bathrooms",
+			 color = "Built after 1990?",
+			 title = "Bedrooms and Bathrooms Pre- and Post-1990 Construction",
+			 caption = "Source: moderndive package") +
+	theme(plot.title = element_text(hjust = .5))
+```
+
+4. Of the ten zip codes with the most homes sold in 2015, which was the most expensive zip code for new homes? (Please report prices in $1000s, so divide price by 1000.)
+
+The zip codes are:
+```{r, include = T}
+dplyr::count(house_prices, zipcode) %>%
+	dplyr::arrange(desc(n)) %>%
+	dplyr::slice_head(n = 10) %>% 
+	select(zipcode)
+```
+
+```{r}
+top_zips <- house_prices[house_prices$zipcode %in% c(98103, 98038, 98115, 98052, 98117, 98042, 98034, 98118, 98023, 98006),]
+# You might also have chosen to filter the data to 2015 sales specifically
+# Not run:
+# top_zips <- top_zips[top_zips$date >= as.Date("2015-01-01"),]
+
+ggplot(data = top_zips) +
+	geom_boxplot(aes(x = factor(zipcode), y = price/1000)) +
+	labs(x = "Zip Code",
+			 y = "Price ($1000s)",
+			 title = "Price of Homes Sold in Top Zip Codes, 2014-2015",
+			 caption = "Source: moderndive package") +
+	theme_bw() +
+	theme(plot.title = element_text(hjust = .5))
+```
+
+5. What is the relationship between the age of a home and it's price? Is age more or less important than condition in determining the price? (Please report prices in $1000s, so divide price by 1000.)
+
+```{r}
+ggplot(data = house_prices, aes(x = 2015-yr_built, y = price/1000)) +
+	geom_point(alpha = .2) +
+	geom_smooth(method = "lm") +
+	facet_wrap(~ condition, nrow = 1) +
+	labs(x = "Age of Home",
+			 y = "Price ($1000s)",
+			 title = "Price of Homes Sold by Age and Condition",
+			 caption = "Source: moderndive package") +
+	theme_bw(base_size = 8) +
+	theme(plot.title = element_text(hjust = .5))
+```
