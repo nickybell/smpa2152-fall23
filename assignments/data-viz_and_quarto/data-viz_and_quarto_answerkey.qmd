@@ -1,21 +1,17 @@
 ---
-output: 
-    stevetemplates::statement:
-    latex_engine: pdflatex
-geometry: margin=1in
-graphics: yes
-
 title: "Assignment #2"
-author: Prof. Bell
-email: Fall 2023
-
-fontfamily: cochineal
-fontsize: 11pt
+subtitle: "Fall 2023"
+author: "Prof. Bell"
+# format:
+#   html:
+#     code-tools: true
+format: gfm
+execute:
+  warning: false
+  message: false
+editor_options: 
+  chunk_output_type: console
 ---
-
-```{r setup, include = F}
-knitr::opts_chunk$set(echo = T, include = T, fig.height = 4, fig.width = 6, fig.align = "center")
-```
 
 For this homework, please produce a nicely-formatted graph that answers each of the following questions. A nicely-formatted graph includes:
 
@@ -32,7 +28,9 @@ Please turn in your `.qmd` file, the `_files` directory, and your rendered Quart
 
 In your `setup` chunk, install the `moderndive` package and load the `house_prices` data. 
 
-```{r, message = F}
+```{r}
+#| label: setup
+
 # Not run
 # install.packages("moderndive")
 library(tidyverse)
@@ -45,8 +43,10 @@ data(house_prices)
     `house_prices$month <- lubridate::month(house_prices$date, label = T)`
 
     What is the most popular month for home sales?
-
+    
 ```{r}
+#| label: question1
+
 house_prices$month <- lubridate::month(house_prices$date, label = T)
 
 ggplot(data = house_prices) +
@@ -59,9 +59,13 @@ ggplot(data = house_prices) +
 	theme(plot.title = element_text(hjust = .5))
 ```
 
+> The most popular month for home sales is May.
+
 2. In 1900, the population of King County was 110,053; in 2020, it was 2.3 million. In what decade did home construction in King County start to grow dramatically? (Hint: You do not need to create a new variable; explore the `binwidth` argument.)
 
 ```{r}
+#| label: question2
+
 ggplot(data = house_prices) +
 	geom_histogram(aes(x = yr_built), color = "white", binwidth = 10) +
 	labs(x = "Decade",
@@ -75,32 +79,44 @@ ggplot(data = house_prices) +
 3. Design style has changed over the past century. Using a scatterplot, show how the number of bathrooms compares to the number of bedrooms. Do homes built on or after 1990 tend to have more bathrooms per bedroom than homes built before 1990?
 
     *1 bonus point: Add best fit lines to the scatterplot to show the strength of the relationship between bathrooms and bedrooms before and after 1990. Comment on these relationships.*
-
+    
 ```{r}
-ggplot(data = house_prices, aes(x = bedrooms, y = bathrooms, color = yr_built > 1990)) +
-	geom_point(alpha = .5) +
+#| label: question3
+
+ggplot(data = house_prices, aes(x = bedrooms, y = bathrooms, color = yr_built >= 1990)) +
+	geom_point() +
 	geom_smooth(method = "lm", se = FALSE) +
 	labs(x = "Bedrooms",
 			 y = "Bathrooms",
-			 color = "Built after 1990?",
+			 color = "Built on or after 1990?",
 			 title = "Bedrooms and Bathrooms Pre- and Post-1990 Construction",
 			 caption = "Source: moderndive package") +
-	theme(plot.title = element_text(hjust = .5))
+  theme_minimal() +
+	theme(plot.title = element_text(hjust = .5),
+	      legend.position = "bottom")
 ```
+
+> Homes built on or after 1990 tend to have more bathrooms per bedroom.
+> The relationship between bedrooms and bathrooms is the same in both time periods, but the average number of bathrooms is higher at all numbers of bedrooms in the post-1990 period.
 
 4. What is the relationship between the condition of a home and it's price? Please report prices in $1000s, so divide price by 1000. (For condition, 1 = Poor, 2 = Fair, 3 = Average, 4 = Good, and 5 = Very Good.)
 
     *2 bonus points: Compare the relationship between condition and price for older and newer homes (however you choose to define that) using facets. Comment on whether age impacts the relationship between condition and price.*
-
+    
 ```{r}
-ggplot(data = house_prices, aes(x = 2015-yr_built, y = price/1000)) +
-	geom_point(alpha = .2) +
-	geom_smooth(method = "lm") +
-	facet_wrap(~ condition, nrow = 1) +
-	labs(x = "Age of Home",
+#| label: question4
+
+house_prices$old <- ifelse(house_prices$yr_built < 1990, "Pre-1990", "Post-1990")
+
+ggplot(data = house_prices) +
+	geom_boxplot(aes(x = condition, y = price/1000)) +
+	facet_wrap(~ old) +
+	labs(x = "Condition",
 			 y = "Price ($1000s)",
-			 title = "Price of Homes Sold by Age and Condition",
+			 title = "Price of Homes Sold by Condition",
 			 caption = "Source: moderndive package") +
-	theme_bw(base_size = 8) +
+	theme_minimal() +
 	theme(plot.title = element_text(hjust = .5))
 ```
+
+> There is not a clear relationship between condition and price, especially for homes in the "average" condition and above. This is true for older and newer homes.
