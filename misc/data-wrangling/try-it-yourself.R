@@ -1,5 +1,6 @@
 library(tidyverse)
-read_csv("data/data-wrangling/knight_newhouse.csv", show_col_types = FALSE) |>
+print(
+  read_csv("data/data-wrangling/knight_newhouse.csv", show_col_types = FALSE) |>
   filter(year == 2022) |>
   mutate(ratio = total_expenses/total_academic_spending) |>
   group_by(region) |>
@@ -14,3 +15,5 @@ read_csv("data/data-wrangling/knight_newhouse.csv", show_col_types = FALSE) |>
     theme_classic() +
     theme(plot.title = element_text(hjust = .5),
           axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+)
+
