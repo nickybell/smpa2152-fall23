@@ -3,14 +3,14 @@
 # Author: 	    	  Nicholas Bell (nicholasbell@gwu.edu)
 # Date Created:     2023-10-02
 
-# In this week's textbook reading, you learned about the "dplyr verbs":
+# In this week's textbook reading, you learned about the six "{dplyr} verbs":
 # filter()
-# summarize() and it's best friend group_by()
-# arrange()
-# mutate()
 # select()
-# rename()
-# joining functions (next week)
+# mutate()
+# arrange()
+# summarize() and it's best friend group_by()
+
+# You also learned about joining functions, which we will cover next week
 
 # %>% vs. |> --------------------------------------------------------------
 
@@ -24,146 +24,113 @@
 library(tidyverse)
 
 # Set options
-options(tibble.width = Inf)
+options(tibble.width = Inf, scipen = 999)
 
 # Load the data
 kn <- read_csv("data/data-wrangling/knight_newhouse.csv")
 
+# filter() ----------------------------------------------------------------
 
-# Using filter ------------------------------------------------------------
+# filter() uses logical statements to indicate what *rows* we would like to *keep* in the data frame
+# filter "in", not filter "out"
 
-# Let's start by glimpsing our data
-glimpse(nyc_marathon)
+# Every dplyr verb has the same first argument: the data frame you are working with
+filter(kn, region == "Mid East")
+filter(kn, ticket_sales < 0)
+filter(kn, !year %in% 2020:2021)
+filter(kn, !year %in% 2020:2021, !is.na(total_expenses))
+filter(kn, advertising_licensing > 100000 | media_rights > 100000)
 
-# It might also be helpful to view the helpfile for the data
-?nyc_marathon
+# Test yourself: why does this code return every row? ---------------------
+nrow(kn)
+x <- filter(kn, TRUE)
+nrow(x)
 
-# Every dplyr verb has the same first argument: the dataset you are working with
-# Filter then accepts an unlimited number of logical conditions
-filter(nyc_marathon, year >= 2000)
-filter(nyc_marathon, year >= 2000 & division == "Women")
 
-# Let's filter to only rows that contain the course record
-filter(nyc_marathon, note == "Course record")
+# select() ----------------------------------------------------------------
 
-# And let's plot the change in course record over time
-filter(nyc_marathon, note == "Course record") %>%
-  ggplot(aes(x = year, y = time, color = division)) +
-  geom_line() +
-  geom_point() +
-  geom_text_repel(aes(x = year, y = time, label = name))
+# select() indicates what *columns* we would like in the data frame
+select(kn, school, year, total_expenses:coaches_compensation)
+select(kn, -ipeds_id)
 
+
+# mutate() -----------------------------------------------------------------
+
+# mutate() makes changes to existing columns or adds new columns
+
+kn <- mutate(kn, athletics_profit = total_revenues - total_expenses)
+kn2 <- mutate(kn, total_academic_spending = total_academic_spending/10000)
+kn2 <- mutate(kn, total_academic_spending = total_academic_spending/10000,
+                  total_expenses = total_expenses/10000,
+                  total_revenues = total_revenues/10000)
+kn2 <- rename(kn2, total_academic_spending_10000 = total_academic_spending,
+                   total_expenses_10000 = total_expenses,
+                   total_revenues_10000 = total_revenues)
+
+ggplot(kn2) +
+  geom_histogram(aes(x = total_academic_spending_10000)) +
+  labs(x = "Total Academic Spending ($10,000s)",
+       y = "Count",
+       title = "Distribution of Total Academic Spending",
+       caption  = "Source: Knight-Newhouse Commission") +
+  scale_x_continuous(labels = scales::label_comma(prefix = "$")) +
+  theme_classic()
+
+arrange(kn2, desc(total_academic_spending_10000))
+arrange(kn2, -(total_academic_spending_10000))
+
+# Which schools spend the largest percentage of their athletics budget on coaches compensation?
+kn |>
+  mutate(perc_coaches = (coaches_compensation/total_expenses)*100) |>
+  arrange(desc(perc_coaches)) |>
+  slice_head(n = 5)
+
+# possible data entry error
+kn |>
+  filter(school == "Sam Houston State University") |>
+  select(coaches_compensation)
+
+# Try it yourself! --------------------------------------------------------
+
+# Looking only at 2022 (the most recent year in the data), which school spent the most on game_expenses_and_travel and facilities_and_equipment combined?
+
+kn |>
+  filter(year == 2022) |>
+  mutate(total = game_expenses_and_travel + facilities_and_equipment) |>
+  arrange(desc(total)) |>
+  slice_head(n = 1)
 
 # Using summarize and group_by --------------------------------------------
 
-# How many races have been run?
-summarize(nyc_marathon, n = n())
+# summarize() is used to generate summary statistics, like the mean, for a set of data
+# Used on it's own, summarize will produce a new data frame (tibble) summarizing the entire data frame
 
-# What is the average running time of the winner? In each division?
-summarize(nyc_marathon, mean_running_time = mean(time_hrs, na.rm = T))
+summarize(kn,
+          n = n(),
+          mean_profit = mean(athletics_profit, na.rm = TRUE),
+          max_expenses = max(total_expenses, na.rm = TRUE))
 
-group_by(nyc_marathon, division) %>%
-  summarize(mean_running_time = mean(time_hrs, na.rm = T))
+# summarize() is almost always combined with group_by(), which indicates the groups in the data that we want to learn more about. We may not care about the mean profit of all the schools in the data frame, but maybe we want to compare profit each year.
 
-filter(nyc_marathon, year >= 2000) %>%
-  group_by(division) %>%
-  summarize(mean_running_time = mean(time_hrs, na.rm = T))
+kn |>
+  group_by(year) |>
+  summarize(mean_profit = mean(athletics_profit, na.rm = TRUE))
 
-# Try it yourself! --------------------------------------------------------
+# This is one case where piping into a ggplot is particularly useful. Now we have a data frame of two variables: year and mean_profit. We could save our data as a new object and then write our ggplot code separately. But it's more efficient to use a pipe, like so:
 
-# Using group_by and summarize, find the number of times that each country that has won the marathon and generate a nicely-formatted plot. (Hint: you'll need to look at the cheatsheet to identify the right summary variable)
-# If using geom_bar, you'll need stat = "identity"
-
-group_by(nyc_marathon, country) %>%
-  summarize(wins = n()) %>%
-  filter(!is.na(country)) %>%
+kn |>
+  group_by(year) |>
+  summarize(mean_profit = mean(athletics_profit, na.rm = TRUE)) |>
   ggplot() +
-  geom_bar(aes(x = reorder(country, wins, decreasing = TRUE), y = wins), stat = "identity") +
-  labs(x = "Country",
-       y = "Number of Wins",
-       title = "Number of NYC Marathon Victories by Country",
-       caption = "Source: openintro package") +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-        plot.title = element_text(hjust = .5))
-
-count(nyc_marathon, country)
-
-
-# Using arrange -----------------------------------------------------------
-
-group_by(nyc_marathon, country) %>%
-  summarize(wins = n()) %>%
-  arrange(desc(wins)) %>%
-  filter(!is.na(country))
-
-
-# Introducing the slice functions -----------------------------------------
-
-group_by(nyc_marathon, country) %>%
-  summarize(wins = n()) %>%
-  slice_max(wins, n = 5)
-# slice_min
-# slice_head
-# slice_tail
-# slice_sample
-
-
-# Using mutate ------------------------------------------------------------
-
-# A marathon is 26.3 miles. Create a column for each runner's speed in miles per hour.
-
-nyc_marathon %>%
-  mutate(speed = 26.3/time_hrs)
-
-# What is the average speed in each division?
-nyc_marathon %>%
-  mutate(speed = 26.3/time_hrs) %>%
-  group_by(division) %>%
-  summarize(speed = mean(speed, na.rm = T))
-
-# Plot the change in speed in miles per hour over time for each division.
-
-nyc_marathon %>%
-  mutate(speed = 26.3/time_hrs) %>%
-  ggplot(aes(x = year, y = speed, color = division)) +
-  geom_point() +
-  geom_smooth(se = FALSE) +
-  labs(x = "Year",
-       y = "Running Time in Hours",
-       color = "Division",
-       title = "Running Times of NYC Marathon, 1970 - 2020",
-       caption = "Source: openintro package") +
-  theme_minimal() +
-  theme(plot.title = element_text(hjust = .5))
-
-# What might have happened in 2020? Should we remove this case from the analysis?
-
+    geom_line(aes(x = year, y = mean_profit))
 
 # Try it yourself! --------------------------------------------------------
 
-# First, filter the dataset to remove missing data (why is there missing data?) and then find the winning percentage of each country using group_by, summarize, and mutate (hint: you'll use two summary functions!)
-# Find the top 3 countries by winning percentage
+# Make a graph showing the average ratio of athletics spending to academic spending (athletics expenses divided by academic spending) in each region of the country in 2022.
+# Hint: break this question down in to parts. What function do you need to get the ratio of athletics spending to academic spending? To get the average by region? To reduce the data frame to 2022? To create a graph?
+# Your final answer should look like this:
 
-nyc_marathon %>%
-  group_by(country) %>%
-  summarize(wins = n()) %>%
-  mutate(win_pct = wins/sum(wins)) %>%
-  slice_max(win_pct, n = 3)
+source("/cloud/lib/smpa-2152/misc/data-wrangling/try-it-yourself.R")
 
-# Now do the same thing, but separate the results by division.
-
-nyc_marathon %>%
-  group_by(division, country) %>% # The order matters! Slice_max by the highest win_pct in the first category
-  summarize(wins = n()) %>%
-  mutate(win_pct = wins/sum(wins)) %>%
-  slice_max(win_pct, n = 3)
-
-
-# Using select and rename -------------------------------------------------
-
-# Select chooses columns
-?select
-
-# Rename: new name = old name
-
+# Hint: include the argument `stat = "identity"` in your geom_*() function, outside of the aes() function, e.g.
+# geom_*(aes(x = foo, y = bar), stat = "identity)

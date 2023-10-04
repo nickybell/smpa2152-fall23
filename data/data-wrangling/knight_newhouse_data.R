@@ -25,6 +25,7 @@ ipeds <- read_csv("data/data-wrangling/ipeds.csv") |>
     control = hd2022_control_of_institution,
     undergraduates = drvef122022_full_time_undergraduate_12_month_unduplicated_headcount)
 
-data <- left_join(kn, select(ipeds, unitid, conference, region, control), by = join_by(ipeds_id == unitid))
+data <- left_join(kn, select(ipeds, unitid, conference, region, control), by = join_by(ipeds_id == unitid)) |>
+  mutate(region = str_extract(region, "(^.*)\\s\\(.*$", group = 1))
 
 write_csv(data, "data/data-wrangling/knight_newhouse.csv")
