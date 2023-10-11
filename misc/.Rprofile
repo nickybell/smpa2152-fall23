@@ -11,7 +11,9 @@ setHook("rstudio.sessionInit", function(newSession) {
       insert_native_pipe_operator = TRUE,
       soft_wrap_r_files = TRUE,
       show_margin = FALSE,
-      rainbow_parentheses = TRUE
+      rainbow_parentheses = TRUE,
+      load_workspace = FALSE,
+      rmd_viewer_type = "pane"
     )
     message("RStudio global preferences have been set.")
     rm(update_prefs)
