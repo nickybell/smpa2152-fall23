@@ -1,0 +1,4 @@
+- source: data-viz_and_quarto_answerkey.qmd
+  quarto-pub:
+    - id: 0eb5177f-abde-4aa9-a6cc-8364d2d12d36
+      url: 'https://nicholasbellphd.quarto.pub/assignment-2'
