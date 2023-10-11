@@ -1,0 +1,126 @@
+---
+title: "Data Visualization Bellringer"
+author: "Prof. Bell"
+date: 2023-09-26
+format: html
+# format:
+#   gfm:
+#     output-file: bellringer_types_of_graphs-gfm
+execute:
+  echo: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: setup
+
+p <- ggplot2::ggplot() + ggplot2::geom_hline(yintercept = 0) +
+  ggplot2::geom_vline(xintercept = -0.5) + ggplot2::geom_vline(xintercept = 0.5) +
+  ggplot2::scale_x_continuous(
+    limits = c(-1.5, 1.5),
+    labels = c("Discrete",
+               "Continuous", "Mixed"),
+    breaks = c(-1, 0, 1),
+    expand = c(0,
+               0)
+  ) + ggplot2::scale_y_continuous(
+    limits = c(-1,
+               1),
+    labels = c("Bivariate", "Univariate\n(counting)"),
+    breaks = c(-0.5, 0.5),
+    expand = c(0, 0)
+  ) + ggplot2::labs(y = "Number of Variables",
+                    x = "Type of Variables", caption = "* For multivariate (3+ variables) graphs, use an aesthetic mapping or facets.") + ggplot2::geom_rect(ggplot2::aes(
+                      xmin = 0.5,
+                      xmax = 1.5,
+                      ymin = 0,
+                      ymax = 1
+                    ), fill = "gray") + ggplot2::theme_minimal(base_size = 12) +
+  ggplot2::theme(
+    axis.text.y = ggplot2::element_text(angle = 90,
+                                        hjust = 0.5),
+    axis.ticks = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_blank(),
+    plot.caption = ggplot2::element_text(face = "bold",
+                                         size = 11)
+  )
+```
+
+::: {.panel-tabset}
+## Start
+
+```{r}
+p
+```
+
+## #1
+
+```{r}
+p <-
+  p +
+  ggplot2::annotate("text",
+                    x = -1,
+                    y = 0.5,
+                    label = "Bar graph")
+p
+```
+
+## #2
+
+```{r}
+p <-
+  p +
+  ggplot2::annotate("text",
+                    x = 0,
+                    y = 0.5,
+                    label = "Histogram")
+p
+```
+
+## #3
+
+```{r}
+p <-
+  p +
+  ggplot2::annotate(
+    "text",
+    x = -1,
+    y = -0.5,
+    label = paste("Bar graph",
+                  "Heatmap (2D)", sep = "\n")
+  )
+p
+```
+
+## #4
+
+```{r}
+p <-
+  p +
+  ggplot2::annotate(
+    "text",
+    x = 1,
+    y = -0.5,
+    label = paste("Box and whisker plot", "Violin plot",
+                  sep = "\n")
+  )
+p
+```
+
+## #5
+
+```{r}
+p <-
+  p +
+  ggplot2::annotate(
+    "text",
+    x = 0,
+    y = -0.5,
+    label = paste("Scatterplot", "Line graph",
+                  sep = "\n")
+  )
+p
+```
+
+:::
