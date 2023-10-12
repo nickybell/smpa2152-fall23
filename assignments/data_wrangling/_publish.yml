@@ -1,0 +1,4 @@
+- source: data_wrangling_homework.qmd
+  quarto-pub:
+    - id: 109ed646-7517-46f5-8332-482b03d26f21
+      url: 'https://nicholasbellphd.quarto.pub/assignment-3'
