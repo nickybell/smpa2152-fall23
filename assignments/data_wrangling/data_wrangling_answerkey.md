@@ -93,7 +93,15 @@ df |>
             mean_ir = mean(Interest.Rate)) |>
   ggplot() +
     geom_line(aes(x = Year, y = mean_inflation), color = "orange") +
-    geom_line(aes(x = Year, y = mean_ir), color = "purple")
+    geom_line(aes(x = Year, y = mean_ir), color = "purple") +
+  labs(y = "Rate",
+       x = "Year",
+       title = "Interest Rates and Inflation",
+       subtitle = "Interest rate in purple, inflation in orange",
+       caption = "Source: U.S. Bureau of Labor Statistics") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = .5),
+        plot.subtitle = element_text(hjust = .5))
 ```
 
 ![](data_wrangling_answerkey_files/figure-commonmark/compare-1.png)
@@ -114,7 +122,15 @@ df |>
   filter(!is.na(inflation_high)) |>
   ggplot() +
     geom_bar(aes(x = time, y = mean_ir, fill = inflation_high),
-              stat = "identity", position = "dodge")
+              stat = "identity", position = "dodge") +
+  labs(y = "Mean Interest Rate",
+       x = "Time Period",
+       fill = "Inflation",
+       title = "Interest Rates Under High and Normal Inflation",
+       caption = "Source: U.S. Bureau of Labor Statistics") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = .5),
+        legend.position = "bottom")
 ```
 
 ![](data_wrangling_answerkey_files/figure-commonmark/categories-1.png)
