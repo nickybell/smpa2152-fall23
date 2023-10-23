@@ -1,0 +1,16 @@
+INFORMEDCONSENT: Subjects must agree to participate and have full information about participation
+REVERSE: ______ causation is when the explanatory variable precedes the outcome
+PVALUE: The odds of committing Type I error
+DGP: The rules and procedures that produce the data (acronym)
+CONTROL: The group that does not receive any change in an experiment
+ANONYMITY: No one is aware of subjects' identities
+TREATMENT: The group that receives a change in an experiment
+OPERATIONALIZATION: Should be unambiguous, concise, familiar, and available
+RANDOM: Sample in which the chance of any unit being drawn is uniform
+CONFOUNDER: Other variable that could explain the change in both the explanatory and outcome variables
+SELECTION: The type of bias that occurs when some units have a higher chance of being drawn than others
+CORRELATION: The absolute rate of change in two variables is similar
+INDIRECT: Information that can identify a subject in combination with other information
+COUNTERFACTUAL: Required for making causal claims
+CONFIDENTIALITY: No one other than the researcher is aware of subjects' identities
+DIRECT: Information that can identify a subject on its own
