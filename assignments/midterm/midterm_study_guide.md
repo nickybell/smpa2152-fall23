@@ -4,6 +4,7 @@ output:
   pdf_document: 
     latex_engine: xelatex
 ---
+
 ## Mid-term Exam Study Guide
 ### SMPA 2152 (Fall 23)
 <br>
