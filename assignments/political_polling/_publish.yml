@@ -1,0 +1,4 @@
+- source: political_polling_homework.qmd
+  quarto-pub:
+    - id: 4865d0b6-98a6-4da8-93fb-adf551a3624e
+      url: 'https://nicholasbellphd.quarto.pub/assignment-4'
