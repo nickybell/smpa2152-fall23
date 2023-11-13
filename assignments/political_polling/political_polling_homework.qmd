@@ -127,13 +127,13 @@ poll |>
   rename(Trump = Q1_1,
          Biden = Q1_2) |>
   pivot_longer(cols = c(Trump, Biden), names_to = "Candidate", values_to = "Response") |>
-  filter(QPID %in% c("A Democrat", "An Independent", "A Republican")) |>
   count(QPID, Candidate, Response, wt = Weight_PID) |>
   group_by(QPID, Candidate) |>
   mutate(prop = n/sum(n),
          resp = sum(n),
          moe = 1.96 * sqrt((prop * (1 - prop))/resp)) |>
-  filter(Response == "Favorable") |>
+  filter(QPID %in% c("A Democrat", "An Independent", "A Republican") & 
+Response == "Favorable") |>
   ggplot() +
     geom_bar(aes(x = Candidate, y = prop, fill = Candidate), stat = "identity", position = "dodge") +
     geom_errorbar(aes(x = Candidate, ymin = prop-moe, ymax = prop+moe, group = Candidate), position = position_dodge(.9), width = .2) +
