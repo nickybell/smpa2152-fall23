@@ -16,7 +16,7 @@ options(tibble.width = Inf)
 # - In 2020, in-person exit polls were combined with telephone interviews due to the ubiquity of early voting and vote-by-mail. Could different survey methods yield different types of selection bias?
 
 # Download the 2020 National Election Pool exit poll results from Roper iPoll and load the data in R: https://doi.org/10.25940/ROPER-31119913
-poll <- read_csv("data/31119913_National2020.csv")
+poll <- read_csv("data/political_polling/31119913_National2020.csv")
 
 
 # Survey Weights ----------------------------------------------------------
@@ -43,7 +43,7 @@ ggplot(poll) +
 
 poll |>
   select(sex, age10, qraceai, educcoll, weight) |>
-  arrange(-weight) |>
+  arrange(weight) |>
   slice_head(n = 10)
 
 # Using just the tidyverse, we can generate both the unweighted and weighted presidential vote:
@@ -133,3 +133,27 @@ ggplot(votemethod) +
        caption = "Source: 2020 National Election Pool exit poll.") +
   theme_classic() +
   theme(plot.title = element_text(hjust = .5))
+
+### FOR SLIDES ###
+bind_rows(
+  poll |>
+    filter(sex == "Female" & qraceai == "Black") |>
+    summarize(mean_weight = mean(weight, na.rm = T)) |>
+    mutate(group = "Black women"),
+  poll |>
+    filter(qraceai == "Hispanic/Latino" & age10 == "50-59") |>
+    summarize(mean_weight = mean(weight, na.rm = T)) |>
+    mutate(group = "Hispanic/Latino, age 50-59"),
+  poll |>
+    filter(educcoll == "College graduate" & age10 == "30-34") |>
+    summarize(mean_weight = mean(weight, na.rm = T)) |>
+    mutate(group = "College graduate, age 30-34")
+) |>
+  ggplot() +
+  geom_bar(aes(x = reorder(group, -mean_weight), y = mean_weight), stat = "identity", position = position_dodge(.9)) +
+  labs(x = "Group",
+       y = "Mean Weight",
+       title = "Mean Weights by Group (2020 National Exit Poll)") +
+  theme_classic(base_size = 16) +
+  theme(plot.title = element_text(hjust = .5),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
