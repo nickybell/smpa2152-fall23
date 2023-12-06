@@ -1,0 +1,111 @@
+---
+title: "Regression"
+format: html
+execute:
+  warning: false
+  message: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(sjPlot)
+```
+
+Today, we will be working with data from a [poll of Washington, D.C. residents](https://doi.org/10.25940/ROPER-31119329) conducted by Abt Associates on behalf of *The Washington Post*. Let's begin by loading the data:
+
+```{r}
+#| label: load_data
+
+poll <- read_csv("../../data/regression/31119329.csv")
+```
+
+### Who wants to leave the District?
+
+Let's start by exploring the question, "If you could, would you want to move out of District of Columbia, or not?" The relevant variable is `leavedcfull`. What are the weighted topline results of this poll question?
+
+```{r}
+#| label: topline_leave_dc
+
+poll2 <-
+  poll |>
+  mutate(leavedc = ifelse(leavedcfull %in% c("Would move outside D.C. area", "Would move to D.C. Suburbs"), "Would move",
+                          ifelse(leavedcfull == "Would not move", "Would not move", NA))) |>
+  filter(!is.na(leavedc)) |>
+  count(leavedc, wt = weight) |>
+  mutate(prop = n/sum(n),
+         resp = sum(n),
+         moe = 1.96 * sqrt((prop * (1 - prop))/resp))
+
+ggplot(data = poll2) +
+  geom_bar(aes(x = leavedc, y = prop, fill = leavedc), stat = "identity") +
+  geom_errorbar(aes(x = leavedc, ymin = prop - moe, max = prop + moe, group = leavedc), position = position_dodge(.9), width = .2) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+Only 26% of respondents say that they would move out of the District, if they could. Are there some groups that are more eager to leave DC than others?
+
+One hypothesis might be that the Ward that the respondent lives in (variable `wardnew2`) correlates with their desire to move,^[DC is divided into eight Wards, each of which is represented by a member on City Council. There are also five "at-large" council members who are elected by the city as a whole.] since some Wards may be more desirable locations to live than others. We can use a linear regression model to test this hypothesis.
+
+```{r}
+#| label: leave_dc_wards
+
+poll3 <-
+  poll |>
+  mutate(leavedc = ifelse(leavedcfull %in% c("Would move outside D.C. area", "Would move to D.C. Suburbs"), 1,
+                          ifelse(leavedcfull == "Would not move", 0, NA)))
+
+reg1 <- lm(leavedc ~ wardnew2, data = poll3)
+
+tab_model(reg1)
+```
+
+How do we interpret these results?
+
+First, our `wardnew2` has more than two categories, which means that we need to pay attention to the one category that gets excluded. In this case, that is "Ward 1/4". So the effect of each of our explanatory variables is compared to respondents who live in Wards 1 or 4.
+
+But GW is in Ward 2, and I think we can all agree that this area is a pretty desirable area to live. On the other hand, we might not know much about Wards 1 and 4. How can we force our regression to use "Ward 2/3" as the "reference level"?
+    
+```{r}
+#| label: leave_dc_wards2
+
+poll3 <-
+  poll3 |>
+  mutate(wardnew2 = relevel(factor(wardnew2), ref = "Ward 2/3"))
+
+reg2 <- lm(leavedc ~ wardnew2, data = poll3)
+
+tab_model(reg2)
+```
+
+Great! Now we can say that compared to those who live in Wards 2 and 3, respondents who live in Wards 7 and 8 are more likely to want want to move out of the District, if they could.
+
+Specifically, our interpretation is that a one-unit change in the explanatory variable results in a corresponding change of the slope (coefficient/estimate) in the mean of the dependent variable. So what is a one unit change in `wardnew2 [Ward 7/8]`? What does a change in the mean of `leavedc` mean?
+
+* When we have a categorical explanatory variable, each level is compared to the missing (reference) level. So a one-unit change in `wardnew2 [Ward 7/8]` means the effect of living in Wards 7 or 8 compared to Wards 2 or 3.
+
+* When we have a binary dependent variable, then we have a linear probability model, which is a type of linear regression model. Now, instead of saying that living in Wards 7 or 8 increases the mean of `leavedc` by .19, we say that living in those wards increases the *probability* that a respondent wants to leave the District by 19%.
+
+> A note: Why are we not weighting our regression results? We weight our results when we are trying to estimate proportions for the entire sample as a whole; with regression, we are actually making predictions for every single person (remember the scatterplots we made).
+
+#### Potential confounders
+
+What are some potential confounders of the relationship between the Ward someone lives in and their desire to move out of the District?
+
+...
+
+Let's account for these confounders by including them in our regression model.
+
+```{r}
+#| label: leave_dc_wards_confounded
+
+reg3 <- lm(leavedc ~ wardnew2 + income4 + college, data = poll3)
+
+tab_model(reg3)
+```
+
+Our interpretation is now that living in Wards 7 or 8 increases the probability that a respondent would move out of DC compared to a respondent living in Wards 2 or 3 by 13%, controlling for income and education.
