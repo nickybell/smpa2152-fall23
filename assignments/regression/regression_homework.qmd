@@ -4,13 +4,13 @@ subtitle: "Fall 2023"
 author: "Prof. Bell"
 # format:
 #   html:
-#     code-tools: true
+#     code-tools: false
 #     embed-resources: true
 format: gfm
 execute:
   warning: false
   message: false
-  include: true
+  include: false
 editor_options: 
   chunk_output_type: console
 ---
