@@ -30,7 +30,21 @@ Let's start by exploring the question, "If you could, would you want to move out
 ```{r}
 #| label: topline_leave_dc
 
+poll2 <-
+  poll |>
+  mutate(leavedc = ifelse(leavedcfull %in% c("Would move outside D.C. area", "Would move to D.C. Suburbs"), "Would move",
+                          ifelse(leavedcfull == "Would not move", "Would not move", NA))) |>
+  filter(!is.na(leavedc)) |>
+  count(leavedc, wt = weight) |>
+  mutate(prop = n/sum(n),
+         resp = sum(n),
+         moe = 1.96 * sqrt((prop * (1 - prop))/resp))
 
+ggplot(data = poll2) +
+  geom_bar(aes(x = leavedc, y = prop, fill = leavedc), stat = "identity") +
+  geom_errorbar(aes(x = leavedc, ymin = prop - moe, max = prop + moe, group = leavedc), position = position_dodge(.9), width = .2) +
+  theme_classic() +
+  theme(legend.position = "none")
 ```
 
 Only 26% of respondents say that they would move out of the District, if they could. Are there some groups that are more eager to leave DC than others?
@@ -40,7 +54,16 @@ One hypothesis might be that the Ward that the respondent lives in (variable `wa
 ```{r}
 #| label: leave_dc_wards
 
+poll3 <-
+  poll |>
+  mutate(leavedc = ifelse(leavedcfull %in% c("Would move outside D.C. area", "Would move to D.C. Suburbs"), 1,
+                          ifelse(leavedcfull == "Would not move", 0, NA)))
 
+reg1 <- lm(leavedc ~ wardnew2, data = poll3)
+
+tab_model(reg1,
+          pred.labels = c("Intercept", "Wards 2 & 3", "Wards 5 & 6", "Wards 7 & 8"),
+          dv.labels = "Would Leave DC")
 ```
 
 How do we interpret these results?
@@ -52,7 +75,15 @@ But GW is in Ward 2, and I think we can all agree that this area is a pretty des
 ```{r}
 #| label: leave_dc_wards2
 
+poll3 <-
+  poll3 |>
+  mutate(wardnew2 = relevel(factor(wardnew2), ref = "Ward 2/3"))
 
+reg2 <- lm(leavedc ~ wardnew2, data = poll3)
+
+tab_model(reg2,
+          pred.labels = c("Intercept", "Wards 1 & 4", "Wards 5 & 6", "Wards 7 & 8"),
+          dv.labels = "Would Leave DC")
 ```
 
 Great! Now we can say that compared to those who live in Wards 2 and 3, respondents who live in Wards 7 and 8 are more likely to want want to move out of the District, if they could.
@@ -76,7 +107,11 @@ Let's account for these confounders by including them in our regression model.
 ```{r}
 #| label: leave_dc_wards_confounded
 
+reg3 <- lm(leavedc ~ wardnew2 + income4 + college, data = poll3)
 
+tab_model(reg3,
+          pred.labels = c("Intercept", "Wards 1 & 4", "Wards 5 & 6", "Wards 7 & 8", "Income: $100-200K", "Income: $200K +", "Income: $50-100K", "Non-college educated"),
+          dv.labels = "Would Leave DC")
 ```
 
 Our interpretation is now that living in Wards 7 or 8 increases the probability that a respondent would move out of DC compared to a respondent living in Wards 2 or 3 by 13%, controlling for income and education.
@@ -88,5 +123,15 @@ Are residents of some Wards more satisfied with the Metropolitan Police Departme
 ```{r}
 #| label: police
 
+poll4 <-
+  poll |>
+  mutate(Police = ifelse(ratepolice %in% c("Excellent", "Good"), 1,
+                         ifelse(ratepolice %in% c("Not so good", "Poor"), 0, NA)),
+         wardnew2 = relevel(factor(wardnew2), ref = "Ward 2/3"))
 
+reg4 <- lm(Police ~ wardnew2 + white, data = poll4)
+
+tab_model(reg4,
+          pred.labels = c("Intercept", "Wards 1 & 4", "Wards 5 & 6", "Wards 7 & 8", "White"),
+          dv.labels = "Favorable View of MPD")
 ```
