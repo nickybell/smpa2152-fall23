@@ -15,6 +15,7 @@ output:
     > * Informed consent: the users were not given the opportunity to decide whether to participate in the study, which violates the principle of autonomous persons. The terms of service are not clear and unambiguous information about whta participation in the study involves and the potential harms or benefits of participation.
     > * Beneficence: The study could potentially harm participants by causing emotional distress. This may not be the least harmful way to obtain information about user responses to positive and negative posts.
     > * Understanding how users respond to different types of posts could lead to significant improvements in society, which justifies potentially harmful research as long as the harm is minimized.
+    > * Deception is required in this circumstance because knowledge of study participation could influence the results and result in less societal benefit (however, participants should be debriefed after the fact.)
 
 2. One of the most cited studies in political science is about the causes of civil war. In this study, the authors argue that civil wars are not associated with ethnic or religious divisions but rather how vulnerable the country is to rebellion. The authors measure ethnic diversity as the number of distinct languages spoken by at least 1% of the country's population, and measure how vulnerable the country is to rebellion as the percent of the country that is mountainous (since rebels are better able to hide and surprise their opponents in rough terrain). Evaluate the operationalization of either ethnic diversity or vulnerability to rebellion. In what ways is this operationalization strong? In what ways is this operationalization weak?
 
@@ -42,6 +43,7 @@ output:
     ![](2022ThanksgivingAmericanFarmBureau.png){width=65%}
     
     > * The y-axis is truncated (starts at \$15 rather than \$0), which distorts differences and makes the cost look like it has risen more significantly than it really has.
+    > * The y-axis has breaks every \$11 rather than every \$10.
     > * The inflation-adjusted cost is caused to be hidden by it's lower position on the graph, being subsumed by the light blue area, and having a longer (and smaller) label on the right-hand side.
     > * No axis labels, source, or legend.
     > * Why is the overall cost represented in a different way (shaded blue area) than the inflation-adjusted cost (yellow line)?

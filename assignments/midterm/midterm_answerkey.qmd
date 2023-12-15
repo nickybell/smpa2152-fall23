@@ -2,11 +2,11 @@
 title: "Midterm Exam"
 subtitle: "Fall 2023"
 author: "Prof. Bell"
-# format:
-#   html:
-#     embed-resources: true
-#     code-tools: true
-format: gfm
+format:
+  html:
+    embed-resources: true
+    code-tools: true
+# format: gfm
 execute:
   include: true
   warning: false
