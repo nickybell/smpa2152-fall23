@@ -57,25 +57,31 @@ exported as a `.zip` file.
     results of the democratic satisfaction question, comparing
     Democrats, Republicans, and Independents.
 
-4.  A “feeling thermometer” question asks respondents to rate their
-    feelings towards a person, place, or thing on a scale of 1 to 100,
-    where 1 is very “cold” or negative and 100 is very “warm” or
-    positive.
+4.  Conduct a weighted hypothesis test showing whether a majority of
+    Americans are satisfied with American democracy. You must write both
+    the $H_0$ and the $H_A$. How do you interpret the results of your
+    hypothesis test?
 
-    Conduct a weighted hypothesis test showing whether **Independents**
-    who are satisfied with American democracy feel more warmly towards
-    President Biden (variable `ftbiden`) than those who are not
-    satisfied. You must write both the $H_0$ and the $H_A$. How do you
-    interpret the results of your hypothesis test?
-
-5.  Conduct a linear probability model regression of satisfaction with
-    American democracy on political party and at least two confounders.
-    Use Independents as your reference level for political party. Please
-    explain why you chose to control for those two confounders (i.e.,
-    why do you think that variable is a confounder?)
+5.  Conduct a linear probability regression model of satisfaction with
+    American democracy (the dependent variable) on political party. Use
+    Independents as your reference level for political party.
 
     How do you interpret the effect of political party on satisfaction
     with American democracy?
+
+6.  A “feeling thermometer” question asks respondents to rate their
+    feelings towards a person, place, or thing on a scale of 0 to 100,
+    where 0 is very “cold” or negative and 100 is very “warm” or
+    positive.
+
+    Conduct a linear regression of how warmly respondents feel towards
+    President Biden (variable `ftbiden`, the dependent variable) on
+    satisfaction with democracy and at least two confounders. Please
+    explain why you chose to control for those two confounders (i.e.,
+    why do you think that variable is a confounder?)
+
+    How do you interpret the effect of satisfaction with American
+    democracy on feelings toward President Biden?
 
     Some potential confounders include:
 
