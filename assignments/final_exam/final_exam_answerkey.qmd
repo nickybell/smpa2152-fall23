@@ -4,7 +4,7 @@ subtitle: "Fall 2023"
 author: "Prof. Bell"
 # format:
 #   html:
-#     code-tools: false
+#     code-tools: true
 #     embed-resources: true
 format: gfm
 execute:
@@ -97,6 +97,9 @@ poll |>
 
 4. Conduct a weighted hypothesis test showing whether a majority of Americans are satisfied with American democracy. You must write both the $H_0$ and the $H_A$. How do you interpret the results of your hypothesis test?
 
+> $H_0$: Less than or equal to 50% of Americans are satisfied with American democracy.
+> $H_A$: More than 50% of Americans are satisfied with American democracy.
+
 ```{r}
 #| label: hypothesis_test
 
@@ -127,6 +130,8 @@ tab_model(reg1,
           dv.labels = "Satisfied with Democracy")
 ```
 
+> Democrats are 15% more likely to be satisfied with democracy compared to Independents.
+
 6. A "feeling thermometer" question asks respondents to rate their feelings towards a person, place, or thing on a scale of 0 to 100, where 0 is very "cold" or negative and 100 is very "warm" or positive.
 
     Conduct a linear regression of how warmly respondents feel towards President Biden (variable `ftbiden`, the dependent variable) on satisfaction with democracy and at least two confounders. Please explain why you chose to control for those two confounders (i.e., why do you think that variable is a confounder?)
@@ -156,3 +161,5 @@ tab_model(reg2,
           pred.labels = c("Intercept", "Satisfied with Democracy", "High School", "Some College", "Associate's", "Bachelor's", "Post-grad", "Income"),
           dv.labels = "Feeling Thermometer: Biden")
 ```
+
+> Americans who are satisfied with democracy are 21 points warmer towards President Biden compared to those who are not satisfied with democracy, controlling for education and income.

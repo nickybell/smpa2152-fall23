@@ -104,6 +104,10 @@ poll |>
     the $H_0$ and the $H_A$. How do you interpret the results of your
     hypothesis test?
 
+> $H_0$: Less than or equal to 50% of Americans are satisfied with
+> American democracy. $H_A$: More than 50% of Americans are satisfied
+> with American democracy.
+
 ``` r
 poll |>
   mutate(satisfied = ifelse(demsatisfy %in% c(1:3), 1, 0)) |>
@@ -148,6 +152,9 @@ tab_model(reg1,
 |               Republican               |           0.01           | -0.06 – 0.08 |    0.849    |
 |              Observations              |           1498           |              |             |
 | R<sup>2</sup> / R<sup>2</sup> adjusted |      0.020 / 0.019       |              |             |
+
+> Democrats are 15% more likely to be satisfied with democracy compared
+> to Independents.
 
 6.  A “feeling thermometer” question asks respondents to rate their
     feelings towards a person, place, or thing on a scale of 0 to 100,
@@ -202,3 +209,7 @@ tab_model(reg2,
 |                 Income                 |           -0.03            | -0.09 – 0.03  |    0.306    |
 |              Observations              |            1500            |               |             |
 | R<sup>2</sup> / R<sup>2</sup> adjusted |       0.089 / 0.085        |               |             |
+
+> Americans who are satisfied with democracy are 21 points warmer
+> towards President Biden compared to those who are not satisfied with
+> democracy, controlling for education and income.
